@@ -129,5 +129,5 @@ Gallery.defaultProps = {
   direction: 'row',
   targetRowHeight: 300,
 };
-export { Photo };
+export { Photo,computeColumnLayout,computeRowLayout,findIdealNodeSearch };
 export default Gallery;
