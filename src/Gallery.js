@@ -150,12 +150,13 @@ const useGallery = ({
   margin,
   limitNodeSearch,
   targetRowHeight,
-  columns
+  columns,
+  ref
 }) => {
   const [containerWidth, setContainerWidth] = useState(0);
-  const galleryEl = useRef(null);
+  const galleryEl = ref; 
 
-  useLayoutEffect(() => {
+  useLayoutEffect(() => { 
     let animationFrameID = null;
     const observer = new ResizeObserver(entries => {
       // only do something if width changes
@@ -168,11 +169,16 @@ const useGallery = ({
         });
       }
     });
-    observer.observe(galleryEl.current);
-    return () => {
-      observer.disconnect();
-      window.cancelAnimationFrame(animationFrameID);
-    };
+
+    if(galleryEl.current) { 
+      console.info("CURRENT");
+      observer.observe(galleryEl.current);
+      return () => {
+        observer.disconnect();
+        window.cancelAnimationFrame(animationFrameID);
+      };
+    }
+
   });
 
   // no containerWidth until after first render with refs, skip calculations and render nothing
