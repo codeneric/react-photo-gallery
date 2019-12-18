@@ -146,13 +146,11 @@ Gallery.defaultProps = {
 
 const useGallery = ({
   photos,
-  onClick,
   direction,
   margin,
   limitNodeSearch,
   targetRowHeight,
-  columns,
-  renderImage
+  columns
 }) => {
   const [containerWidth, setContainerWidth] = useState(0);
   const galleryEl = useRef(null);
@@ -176,15 +174,6 @@ const useGallery = ({
       window.cancelAnimationFrame(animationFrameID);
     };
   });
-
-  const handleClick = (event, { index }) => {
-    onClick(event, {
-      index,
-      photo: photos[index],
-      previous: photos[index - 1] || null,
-      next: photos[index + 1] || null
-    });
-  };
 
   // no containerWidth until after first render with refs, skip calculations and render nothing
   if (!containerWidth) return []; //return <div ref={galleryEl}>&nbsp;</div>;
@@ -243,29 +232,13 @@ const useGallery = ({
   }
 
   return thumbs;
-
-  const renderComponent = renderImage || Photo;
-  return (
-    <div className="react-photo-gallery--gallery">
-      <div ref={galleryEl} style={galleryStyle}>
-        {thumbs.map((thumb, index) => {
-          const { left, top, containerHeight, ...photo } = thumb;
-          return renderComponent({
-            left,
-            top,
-            key: thumb.key || thumb.src,
-            containerHeight,
-            index,
-            margin,
-            direction,
-            onClick: onClick ? handleClick : null,
-            photo
-          });
-        })}
-      </div>
-    </div>
-  );
 };
 
-export { Photo, computeColumnLayout, computeRowLayout, findIdealNodeSearch };
+export {
+  Photo,
+  computeColumnLayout,
+  computeRowLayout,
+  findIdealNodeSearch,
+  useGallery
+};
 export default Gallery;
