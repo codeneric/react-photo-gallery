@@ -1,6 +1,6 @@
 {
   "name": "react-photo-gallery",
-  "version": "8.0.2",
+  "version": "8.0.3",
   "description": "Responsive Justified React Image Gallery Component",
   "main": "dist/react-photo-gallery.umd.js",
   "module": "dist/react-photo-gallery.esm.js",
@@ -65,6 +65,7 @@
     "react-dom": "^16.8.0"
   },
   "scripts": {
+    "postinstall":"yarn && yarn build",
     "build": "nps build",
     "build:docs": "NODE_ENV=production nps build:docs",
     "start": "webpack-dev-server --progress",
