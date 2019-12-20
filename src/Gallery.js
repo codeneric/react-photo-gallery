@@ -150,37 +150,12 @@ const useGallery = ({
   margin,
   limitNodeSearch,
   targetRowHeight,
-  columns,
-  ref
+  containerWidth,
+  columns
 }) => {
-  const [containerWidth, setContainerWidth] = useState(0);
-  const galleryEl = ref; 
+  return React.useMemo(()=>{
 
-  useLayoutEffect(() => { 
-    let animationFrameID = null;
-    const observer = new ResizeObserver(entries => {
-      // only do something if width changes
-      const newWidth = entries[0].contentRect.width;
-      if (containerWidth !== newWidth) {
-        // put in an animation frame to stop "benign errors" from
-        // ResizObserver https://stackoverflow.com/questions/49384120/resizeobserver-loop-limit-exceeded
-        animationFrameID = window.requestAnimationFrame(() => {
-          setContainerWidth(Math.floor(newWidth));
-        });
-      }
-    });
-
-    if(galleryEl.current) { 
-      console.info("CURRENT");
-      observer.observe(galleryEl.current);
-      return () => {
-        observer.disconnect();
-        window.cancelAnimationFrame(animationFrameID);
-      };
-    }
-
-  });
-
+  
   // no containerWidth until after first render with refs, skip calculations and render nothing
   if (!containerWidth) return []; //return <div ref={galleryEl}>&nbsp;</div>;
   // subtract 1 pixel because the browser may round up a pixel
@@ -238,6 +213,14 @@ const useGallery = ({
   }
 
   return thumbs;
+
+}, [ photos,
+  direction,
+  margin,
+  limitNodeSearch,
+  targetRowHeight,
+  containerWidth,
+  columns])
 };
 
 export {
